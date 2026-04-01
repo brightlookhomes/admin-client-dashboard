@@ -54,7 +54,7 @@ async function startServer() {
     const clientDistPath = path.join(__dirname, "../client/dist");
     app.use(express.static(clientDistPath));
 
-    app.get("*", (req, res) => {
+    app.get("*path", (req, res) => {
       // Exclude API routes from catch-all for better debugging
       if (req.path.startsWith("/api")) {
         return res.status(404).json({ error: "API route not found" });
