@@ -1,0 +1,458 @@
+.clientPortalPage {
+  background-color: var(--c-bg);
+  min-height: 100vh;
+  font-family: inherit;
+  padding-bottom: 40px;
+}
+
+.clientPortalHeader {
+  background: #e6f0ff;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.clientPortalLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cpLogoIcon img, .cpLogoIcon svg {
+  width: auto;
+  height: 40px;
+}
+
+.cpLogoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.cpLogoTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--c-black);
+  line-height: 1.2;
+}
+
+.cpLogoSubtitle {
+  font-size: 11px;
+  color: var(--c-gray-700);
+}
+
+.clientPortalBanner {
+  background: var(--c-white);
+  color: var(--c-black);
+  padding: 16px 24px 80px 24px;
+  border-top: 1px solid #3a4553;
+}
+
+.clientPortalBannerContent {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cpProjectName {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.cpClientName, .cpLocation {
+  font-size: 15px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.cpLastUpdated {
+  font-size: 12px;
+  margin: 16px 0 0 0;
+  opacity: 0.8;
+}
+
+.clientPortalMain {
+  max-width: 1000px;
+  margin: -50px auto 0;
+  padding: 0 24px;
+}
+
+.cpProgressCard {
+  background: var(--c-white);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+  border: 1px solid var(--c-gray-300);
+}
+
+.cpProgressTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cpProgressTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+
+.cpProgressPercent {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-blue);
+}
+
+.cpProgressTrack {
+  width: 100%;
+  height: 12px;
+  background: #f0f2f2;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 16px;
+  border: 1px solid var(--c-gray-300);
+}
+
+.cpProgressFill {
+  height: 100%;
+  background: var(--c-green);
+  border-radius: 999px;
+  transition: width 0.5s ease-out;
+}
+
+.cpProgressDates {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cpDateItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cpDateItem.right {
+  align-items: flex-end;
+}
+
+.cpDateLabel {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.cpDateValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-black);
+}
+
+.cpTabsSection {
+  margin-top: 24px;
+}
+
+.cpTabsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Override project stuff to match layout */
+.cpProjectTabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: var(--c-bg);
+  padding: 6px;
+  gap: 4px;
+  border-radius: 12px;
+}
+
+.cpProjectTab {
+  border: none;
+  background: transparent;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-gray-700);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.cpProjectTab:hover {
+  background: var(--c-gray-300);
+  color: var(--c-black);
+}
+
+.cpProjectTab--active {
+  color: var(--c-white) !important;
+  background: var(--c-blue) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.cpSectionTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--c-black);
+  margin: 24px 0 16px;
+}
+
+/* Project list overrides */
+.cpList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cpListItemTitle {
+  color: var(--c-blue);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Media Grid Styles (WhatsApp / Amazon Style) */
+.cpMediaGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.cpMediaGridItem {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--c-gray-300);
+  border: 1px solid var(--c-gray-300);
+  transition: transform 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .cpMediaGridItem {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.cpMediaGridItem:hover {
+  transform: scale(1.03);
+}
+
+.cpMediaGridImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cpMediaGridPlayIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.15);
+  pointer-events: none;
+}
+
+.cpMediaGridPlayIcon::after {
+  content: '▶';
+  font-size: 32px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.cpMediaGridCountOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* Milestones Styles */
+.cpMilestoneCard {
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.cpMilestoneIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--c-green);
+  color: var(--c-green);
+}
+.cpMilestoneInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cpMilestoneTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.cpMilestoneTitle--completed {
+  text-decoration: line-through;
+  color: var(--c-gray-700);
+}
+.cpMilestoneDate {
+  font-size: 12px;
+  color: var(--c-green-dark);
+  font-weight: 500;
+}
+
+/* Payments Styles */
+.cpPaymentCardsRow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.cpPaymentCardsRow > div {
+  flex: 1;
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.cpPaymentCardTitle {
+  font-size: 12px;
+  color: var(--c-gray-700);
+  font-weight: 500;
+}
+.cpPaymentCardValue {
+  font-size: 24px;
+  font-weight: 700;
+}
+.cpPaymentValue--blue { color: var(--c-blue); }
+.cpPaymentValue--green { color: var(--c-green-dark); }
+.cpPaymentValue--red { color: #cc0000; }
+
+.cpPaymentProgressCard {
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+}
+.cpPaymentProgressTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--c-gray-700);
+  font-weight: 500;
+}
+.cpPaymentProgressPercent {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+
+.cpPaymentHistoryCard {
+  background: var(--c-white);
+  border: 1px solid var(--c-gray-300);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.cpPaymentHistoryAmount {
+  font-size: 20px;
+  font-weight: 700;
+  color: #cc0000; /* Usually payments are deductions, but let's use green if it's received */
+}
+.cpPaymentHistoryAmount--green {
+  color: var(--c-green-dark);
+}
+.cpPaymentHistoryTitle {
+  font-size: 13px;
+  color: var(--c-gray-700);
+}
+.cpPaymentHistoryDate {
+  font-size: 12px;
+  color: var(--c-gray-700);
+}
+
+/* Responsiveness adjustments */
+@media (max-width: 768px) {
+  .clientPortalBanner {
+    padding: 24px 16px 64px 16px;
+  }
+  .cpProjectName {
+    font-size: 24px;
+    line-height: 1.2;
+  }
+  .clientPortalMain {
+    padding: 0 16px;
+  }
+  .cpProgressCard {
+    padding: 16px;
+  }
+  
+  .cpPaymentCardsRow {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  /* Tabs horizontally scrollable */
+  .cpTabsContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: 0 16px;
+  }
+  .cpTabsContainer::-webkit-scrollbar {
+    display: none;
+  }
+  .cpProjectTabs {
+    display: flex;
+    white-space: nowrap;
+    width: max-content;
+    min-width: 100%;
+  }
+  .cpProjectTab {
+    flex: 1;
+  }
+
+  /* Media grid forces 2 columns on mobile unless 1 image */
+  .cpMediaGrid {
+    max-width: 100%;
+    justify-content: flex-start;
+  }
+}

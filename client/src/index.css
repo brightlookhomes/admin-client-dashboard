@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Minimal UI Typography */
+  --font-amazon: "Inter", "Helvetica Neue", Arial, sans-serif;
+  
+  /* Core Brand Colors (12% Blue, 12% Green) */
+  --c-blue: #0066cc;
+  --c-blue-dark: #005ce6;
+  --c-blue-bg: #f5f7fa;
+  
+  --c-green: #66cc00;
+  --c-green-dark: #5cb800;
+  --c-green-bg: #f5f7fa;
+
+  /* Neutrals (70% white, 4% black, remaining grey) */
+  --c-white: #ffffff;
+  --c-black: #111111;
+  --c-gray-900: #222222;
+  --c-gray-700: #6b7280;
+  --c-gray-300: #e5e7eb;
+  --c-bg: #f5f7fa; 
+  
+  /* Soft Shadows */
+  --shadow-sm: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-amazon);
+  background-color: var(--c-bg);
+  color: var(--c-black);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-amazon);
+  color: var(--c-black);
+  font-weight: 600;
+}
+
+p, span, div, li, a {
+  font-weight: 400;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-gray-300); 
+  border-radius: 999px;
+  border: 4px solid var(--c-bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-gray-700); 
+}
+
+
+/* Global Brand Logo */
+.brandLogo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .brandLogo {
+    height: 26px;
+  }
+}
+
+/* Clean Button Interactivity */
+button {
+  transition: all 0.2s ease-in-out;
+}
+button:hover:not(:disabled) {
+  transform: scale(1.02);
+  filter: brightness(0.95);
+}
+
+
+/* Global Button Rounding */
+button {
+  border-radius: 8px !important;
+}
