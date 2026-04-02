@@ -3,7 +3,8 @@
 BrightLook is a powerful MERN stack application designed for construction and project management. It features a professional **Admin Dashboard** for managing site updates, milestones, and payments, alongside a responsive **Client Portal** for real-time project tracking.
 
 ## 🚀 Live Demo
-**Deployed on Render:** [https://admin-client-dashboard.onrender.com](https://admin-client-dashboard.onrender.com)
+- **Frontend (Vercel):** [https://admin-client-dashboard-ten.vercel.app/](https://admin-client-dashboard-ten.vercel.app/)
+- **Backend (Render):** [https://admin-client-dashboard.onrender.com](https://admin-client-dashboard.onrender.com)
 
 ---
 
