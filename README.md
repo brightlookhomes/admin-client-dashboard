@@ -54,10 +54,31 @@ BrightLook is a powerful MERN stack application designed for construction and pr
 
 ---
 
-## ☁️ Deployment (Render)
+---
 
-This project is optimized for deployment as a single **Web Service** on Render:
-1. The root `package.json` handles building the frontend and serving it through the backend.
-2. In production, the backend serves the `client/dist` directory as static files.
-3. **Build Command:** `npm run build`
-4. **Start Command:** `npm start`
+## ☁️ Deployment (Split Architecture)
+
+This project is optimized for high-performance split deployment:
+
+### 👤 Backend (Render)
+1. **Service Type:** Web Service.
+2. **Build Command:** `npm install`
+3. **Start Command:** `node server/index.js`
+4. **Environment Variables:**
+   - `MONGODB_URI`, `JWT_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`
+   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+
+### 🎨 Frontend (Vercel)
+1. **Framework Preset:** Vite.
+2. **Build Command:** `npm run build`
+3. **Output Directory:** `dist`
+4. **Environment Variables:**
+   - `VITE_API_URL`: Your Render backend URL (e.g., `https://your-backend.onrender.com`)
+
+---
+
+## 🔗 Domain Configuration (Vercel + GoDaddy)
+1. In **Vercel** Settings → Domains, add `yourdomain.com`.
+2. In **GoDaddy** DNS Management:
+   - Add **CNAME** Record: `www` → `cname.vercel-dns.com`
+   - Add **A Record**: `@` → `76.76.21.21` (Vercel Default IP)

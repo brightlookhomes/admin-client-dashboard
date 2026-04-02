@@ -17,9 +17,15 @@ import publicRoutes from "./routes/publicRoutes.js";
 
 const app = express();
 
-// Enable Cross-Origin Resource Sharing for frontend dev.
+// Enable Cross-Origin Resource Sharing for independent frontend deployment.
 app.use(cors({
-  origin: "*",
+  origin: [
+    "http://localhost:5173", 
+    "https://admin-client-dashboard.vercel.app", // Adjust this to your actual Vercel project name
+    "https://yourdomain.com",
+    "https://www.yourdomain.com"
+  ],
+  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
@@ -50,16 +56,8 @@ async function startServer() {
     app.use("/api/uploads", uploadRoutes);
     app.use("/api/public", publicRoutes);
 
-    // Static Frontend Files
-    const clientDistPath = path.join(__dirname, "../client/dist");
-    app.use(express.static(clientDistPath));
-
-    app.get("*path", (req, res) => {
-      // Exclude API routes from catch-all for better debugging
-      if (req.path.startsWith("/api")) {
-        return res.status(404).json({ error: "API route not found" });
-      }
-      res.sendFile(path.join(clientDistPath, "index.html"));
+    app.get("/", (req, res) => {
+      res.json({ message: "Brightlook API is running" });
     });
 
     app.listen(PORT, () => {
