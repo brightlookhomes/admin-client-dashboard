@@ -57,9 +57,15 @@ export default function FullMediaViewer({ media, onClose }) {
       const response = await fetch(current.url);
       const blob = await response.blob();
       const blobUrl = URL.createObjectURL(blob);
+      const ext = current.url.split('.').pop() || (current.type === "video" ? "mp4" : "jpg");
+      const cleanProj = (current.projectName || "Brightlook").replace(/[^a-z0-9]/gi, '_');
+      const cleanTitle = (current.title || "Update").replace(/[^a-z0-9]/gi, '_');
+      const dateStr = current.date ? new Date(current.date).toLocaleDateString('en-GB').replace(/\//g, '-') : "";
+      const finalName = `${cleanProj}_${cleanTitle}_${dateStr}.${ext}`;
+
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = current.url.split('/').pop() || "download";
+      a.download = finalName;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

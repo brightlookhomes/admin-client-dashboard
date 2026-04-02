@@ -15,7 +15,18 @@ function formatCurrencyINR(value) {
   return `₹${n.toLocaleString("en-IN")}`;
 }
 
-function formatISTDate(value) {
+function formatSimpleDate(value) {
+  if (!value) return "—";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  });
+}
+
+function formatISTDateTime(value) {
   if (!value) return "—";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "—";
@@ -30,8 +41,8 @@ function formatISTDate(value) {
   }).toUpperCase();
 }
 
-function formatDate(value) { return formatISTDate(value); }
-function formatDateTime(value) { return formatISTDate(value); }
+function formatDate(value) { return formatSimpleDate(value); }
+function formatDateTime(value) { return formatISTDateTime(value); }
 
 export default function ClientPortal() {
   const { projectId } = useParams();
@@ -52,6 +63,7 @@ export default function ClientPortal() {
         setLoading(false);
       }
     }
+    document.title = "Brightlook Client";
     fetchBundle();
   }, [projectId]);
 
@@ -73,13 +85,21 @@ export default function ClientPortal() {
 
   const { project, updates, milestones, payments, totals } = bundle;
 
-  // Use the most recent update's createdAt for "last updated"
+  // Use the most recent action for "last updated"
   let lastUpdated = project.updatedAt;
+  
   if (updates?.length > 0) {
-    lastUpdated = updates[updates.length - 1].createdAt;
     for (const u of updates) {
       if (new Date(u.createdAt) > new Date(lastUpdated)) {
         lastUpdated = u.createdAt;
+      }
+    }
+  }
+  
+  if (milestones?.length > 0) {
+    for (const m of milestones) {
+      if (m.updatedAt && new Date(m.updatedAt) > new Date(lastUpdated)) {
+        lastUpdated = m.updatedAt;
       }
     }
   }
@@ -109,13 +129,13 @@ export default function ClientPortal() {
         <div className="cpProgressCard">
           <div className="cpProgressTop">
             <span className="cpProgressTitle">Overall Progress</span>
-            <span className="cpProgressPercent">{project.overallProgress || 0}%</span>
+            <span className="cpProgressPercent">{Math.round(project.overallProgress || 0)}%</span>
           </div>
           
           <div className="cpProgressTrack">
             <div
               className="cpProgressFill"
-              style={{ width: `${project.overallProgress || 0}%` }}
+              style={{ width: `${Math.round(project.overallProgress || 0)}%` }}
             />
           </div>
 
@@ -173,7 +193,7 @@ export default function ClientPortal() {
                       <div className="projectListItemHeader" style={{ display: 'block' }}>
                         <strong className="cpListItemTitle" style={{ display: 'block', marginBottom: '4px' }}>{u.title}</strong>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span className="projectListItemDate">{formatDateTime(u.createdAt)}</span>
+                          <span className="projectListItemDate">{formatSimpleDate(u.createdAt)}</span>
                           {u.category && <div className="projectBadge">{u.category}</div>}
                         </div>
                       </div>
@@ -197,7 +217,13 @@ export default function ClientPortal() {
                                   const galleryItems = u.media.map(m => {
                                     const mUrl = m.url;
                                     const mIsVideo = mUrl.toLowerCase().match(/\.(mp4|mov|webm|ogv)$/) || mUrl.includes("/video/upload/");
-                                    return { url: mUrl, type: mIsVideo ? 'video' : 'image' };
+                                    return { 
+                                      url: mUrl, 
+                                      type: mIsVideo ? 'video' : 'image',
+                                      projectName: project.name,
+                                      title: u.title,
+                                      date: u.createdAt
+                                    };
                                   });
                                   setSelectedMedia({ items: galleryItems, startIndex: index });
                                 }}
@@ -282,7 +308,7 @@ export default function ClientPortal() {
                 </div>
                 <div className="cpProgressTrack" style={{ marginBottom: 0 }}>
                   <div 
-                    className="cpProgressFill" 
+                    className="cpProgressFill cpProgressFill--green" 
                     style={{ width: `${project.contractValue ? Math.min(100, (totals?.totalReceived || 0) / project.contractValue * 100) : 0}%` }} 
                   />
                 </div>

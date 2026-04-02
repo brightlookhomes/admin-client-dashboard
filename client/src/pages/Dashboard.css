@@ -315,4 +315,40 @@
   color: var(--c-white);
 }
 
+/* Responsiveness adjustments */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 12px 12px 40px;
+  }
+  .dashboardStatsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .statCard {
+    padding: 12px;
+  }
+  .statValue {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    padding: 16px;
+  }
+  .modalFieldGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardStatsRow {
+    grid-template-columns: 1fr;
+  }
+  .projectsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 

@@ -34,6 +34,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
+    document.title = "Brightlook Admin";
     fetchProjects();
   }, []);
 

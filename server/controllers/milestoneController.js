@@ -41,18 +41,32 @@ export async function getMilestoneById(req, res) {
 
 export async function updateMilestone(req, res) {
   try {
+    const { id } = req.params;
+    const { completed, name, expectedDate } = req.body;
+
+    // Use a clean update object to ensure only one record and specific fields are modified
+    const cleanUpdate = {};
+    if (completed !== undefined) cleanUpdate.completed = Boolean(completed);
+    if (name !== undefined) cleanUpdate.name = name;
+    if (expectedDate !== undefined) cleanUpdate.expectedDate = expectedDate;
+
     const milestone = await Milestone.findByIdAndUpdate(
-      req.params.id,
-      req.body,
+      id,
+      cleanUpdate,
       {
         new: true,
         runValidators: true,
       }
     );
+
     if (!milestone) {
       return res.status(404).json({ message: "Milestone not found." });
     }
-    if (milestone?.project) cacheDel(`clientPortal:${milestone.project}`);
+
+    // Invalidate cache for this project to ensure frontend sees fresh data
+    const projectId = milestone.project.toString();
+    cacheDel(`clientPortal:${projectId}`);
+    
     res.json(milestone);
   } catch (err) {
     console.error("Update milestone error", err);

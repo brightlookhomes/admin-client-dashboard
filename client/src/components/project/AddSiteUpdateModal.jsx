@@ -63,6 +63,7 @@ export default function AddSiteUpdateModal({ projectId, onClose, onSaved }) {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., Tiling work started"
             required
+            autoComplete="off"
           />
         </div>
 

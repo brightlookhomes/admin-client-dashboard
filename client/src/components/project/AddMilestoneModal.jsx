@@ -42,6 +42,7 @@ export default function AddMilestoneModal({ projectId, onClose, onSaved }) {
             onChange={(e) => setMilestoneName(e.target.value)}
             placeholder="e.g., Foundation"
             required
+            autoComplete="off"
           />
         </div>
 

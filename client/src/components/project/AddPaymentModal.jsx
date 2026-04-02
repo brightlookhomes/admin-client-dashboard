@@ -62,6 +62,7 @@ export default function AddPaymentModal({ projectId, onClose, onSaved }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g., Foundation stage payment"
+            autoComplete="off"
           />
         </div>
 

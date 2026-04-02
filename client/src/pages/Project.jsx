@@ -15,20 +15,19 @@ function formatCurrencyINR(value) {
   return `₹${n.toLocaleString("en-IN")}`;
 }
 
-function formatDate(value) {
+function formatSimpleDate(value) {
   if (!value) return "—";
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "—";
-  return d.toLocaleString("en-IN", {
-    timeZone: "Asia/Kolkata",
+  return d.toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  }).toUpperCase();
+    year: "numeric"
+  });
 }
+
+function formatDate(value) { return formatSimpleDate(value); }
+
 
 export default function Project() {
   const { id } = useParams();
@@ -56,6 +55,7 @@ export default function Project() {
   }
 
   useEffect(() => {
+    document.title = "Brightlook Admin";
     fetchBundle();
     
     function onKeyDown(e) {
@@ -115,10 +115,34 @@ export default function Project() {
   };
 
   const toggleMilestone = async (milestone) => {
+    const originalStatus = milestone.completed;
+    const newStatus = !originalStatus;
+
+    // 1. Optimistic UI update
+    setBundle((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        milestones: prev.milestones.map((m) =>
+          m._id === milestone._id ? { ...m, completed: newStatus } : m
+        ),
+      };
+    });
+
     try {
-      await http.put(`/milestones/${milestone._id}`, { completed: !milestone.completed });
-      fetchBundle();
-    } catch {
+      // 2. Persist to server
+      await http.put(`/milestones/${milestone._id}`, { completed: newStatus });
+    } catch (error) {
+      // 4. Rollback on failure
+      setBundle((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          milestones: prev.milestones.map((m) =>
+            m._id === milestone._id ? { ...m, completed: originalStatus } : m
+          ),
+        };
+      });
       toast.error("Failed to toggle milestone status");
     }
   };
@@ -193,7 +217,7 @@ export default function Project() {
             <span className="projectProgressTitle">Overall Progress</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <span className="projectProgressPercent">
-                {project.overallProgress || 0}%
+                {Math.round(project.overallProgress || 0)}%
               </span>
               <button 
                 type="button" 
@@ -223,7 +247,7 @@ export default function Project() {
           <div className="projectProgressTrack">
             <div
               className="projectProgressFill"
-              style={{ width: `${project.overallProgress || 0}%` }}
+              style={{ width: `${Math.round(project.overallProgress || 0)}%` }}
             />
           </div>
         </div>
@@ -310,7 +334,7 @@ export default function Project() {
                                 const galleryItems = u.media.map(m => {
                                   const mUrl = m.url;
                                   const mIsVideo = mUrl.toLowerCase().match(/\.(mp4|mov|webm|ogv)$/) || mUrl.includes("/video/upload/");
-                                  return { url: mUrl, type: mIsVideo ? 'video' : 'image' };
+                                  return { url: mUrl, type: mIsVideo ? 'video' : 'image', title: u.title, projectName: project.name, date: u.createdAt };
                                 });
                                 setSelectedMedia({ items: galleryItems, startIndex: index });
                               }}>
@@ -343,7 +367,15 @@ export default function Project() {
                     <div key={m._id} className={`projectListItem${m.completed ? " projectListItem--completed" : ""}`}>
                       <div className="projectListItemHeader projectListItemHeader--full">
                         <div className="projectListItemGroup">
-                          <input type="checkbox" checked={m.completed} onChange={() => toggleMilestone(m)} className="projectCheckbox" />
+                          <input 
+                            type="checkbox" 
+                            checked={m.completed} 
+                            onChange={(e) => {
+                              e.stopPropagation();
+                              toggleMilestone(m);
+                            }} 
+                            className="projectCheckbox" 
+                          />
                           <div className="projectMilestoneInfo">
                             <strong className="projectListItemTitle">{m.name}</strong>
                             {m.completed && <span className="projectMilestoneCompletedTag">✓ Completed</span>}
@@ -361,7 +393,7 @@ export default function Project() {
 
           {activeTab === "payments" && (
             <div className="projectTabContent">
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "16px", background: "var(--c-white)", padding: "16px", borderRadius: "10px", border: "1px solid var(--c-gray-300)" }}>
+              <div className="projectPaymentSummary">
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: "12px", color: "var(--c-gray-700)" }}>Amount Received</div>
                   <div style={{ fontSize: "18px", fontWeight: "700", color: "var(--c-blue)" }}>{formatCurrencyINR(totals?.totalReceived)}</div>
@@ -376,11 +408,11 @@ export default function Project() {
                 </div>
               </div>
 
-              <div style={{ padding: "16px", background: "var(--c-white)", border: "1px solid var(--c-gray-300)", borderRadius: "12px", marginBottom: "24px", boxShadow: "var(--shadow-sm)" }}>
+              <div className="projectPaymentProgress">
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", fontSize: "12px", color: "var(--c-gray-700)", fontWeight: "600" }}>
                   <span>Payment Progress</span>
                   <span style={{ fontWeight: "700", color: "var(--c-black)", fontSize: "14px" }}>
-                    {project.contractValue ? ((totals?.totalReceived || 0) / project.contractValue * 100).toFixed(1) : 0}%
+                    {project.contractValue ? Math.round((totals?.totalReceived || 0) / project.contractValue * 100) : 0}%
                   </span>
                 </div>
                 <div style={{ width: "100%", height: "12px", background: "var(--c-gray-300)", borderRadius: "999px", overflow: "hidden" }}>
@@ -389,7 +421,7 @@ export default function Project() {
                     background: "var(--c-green)", 
                     borderRadius: "999px", 
                     transition: "width 0.5s ease-out", 
-                    width: `${project.contractValue ? Math.min(100, (totals?.totalReceived || 0) / project.contractValue * 100) : 0}%` 
+                    width: `${project.contractValue ? Math.min(100, Math.round((totals?.totalReceived || 0) / project.contractValue * 100)) : 0}%` 
                   }} />
                 </div>
               </div>

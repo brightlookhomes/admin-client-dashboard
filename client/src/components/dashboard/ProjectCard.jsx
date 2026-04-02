@@ -9,11 +9,16 @@ export default function ProjectCard({ project, onOpen, onEdit, onDelete }) {
   return (
     <article className="projectCard" role="button" tabIndex={0} onClick={onOpen}>
       <header className="projectCardHeader">
-        <div>
-          <h3 className="projectName">{project.name}</h3>
-          <p className="projectLocation">{project.location}</p>
+        <div style={{ width: '100%', position: 'relative' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+            <h3 className="projectName">{project.name}</h3>
+            <span className="statusBadge">{project.status || "Active"}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <span className="projectClientName" style={{ fontSize: '13px', color: 'var(--c-gray-700)', fontWeight: '500' }}>{project.clientName}</span>
+            <span className="projectLocation" style={{ fontSize: '12px', color: '#9ca3af' }}>{project.location}</span>
+          </div>
         </div>
-        <span className="statusBadge">{project.status || "Active"}</span>
       </header>
 
       <div className="projectProgress">

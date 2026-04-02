@@ -38,6 +38,7 @@ export default function ProjectFormModal({ onClose, onSaved, initial }) {
 
         <form
           className="modalForm"
+          autoComplete="off"
           onSubmit={async (e) => {
             e.preventDefault();
             try {
@@ -80,6 +81,7 @@ export default function ProjectFormModal({ onClose, onSaved, initial }) {
               value={form.name}
               onChange={(e) => setField("name", e.target.value)}
               required
+              autoComplete="off"
             />
           </div>
 
@@ -96,6 +98,7 @@ export default function ProjectFormModal({ onClose, onSaved, initial }) {
                 value={form.clientName}
                 onChange={(e) => setField("clientName", e.target.value)}
                 required
+                autoComplete="off"
               />
             </div>
             <div className="modalFieldGroup">
@@ -109,6 +112,7 @@ export default function ProjectFormModal({ onClose, onSaved, initial }) {
                 placeholder="Enter phone"
                 value={form.phone}
                 onChange={(e) => setField("phone", e.target.value)}
+                autoComplete="off"
               />
             </div>
           </div>
@@ -124,6 +128,7 @@ export default function ProjectFormModal({ onClose, onSaved, initial }) {
               placeholder="City"
               value={form.location}
               onChange={(e) => setField("location", e.target.value)}
+              autoComplete="off"
             />
           </div>
 
